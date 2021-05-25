@@ -58,7 +58,8 @@ class Book {
   }
 
   async updateBook(req, res) {
-    bookModel.findOneAndUpdate({ author: req.user._id, _id: req.body._id }, { $set: req.body })
+    
+    bookModel.findOneAndUpdate({ /*author: req.user._id,*/_id: req.body._id }, { $set: req.body })
       .then(doc => {
         res.json({ success: true, data: doc });
       })
