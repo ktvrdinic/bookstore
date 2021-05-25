@@ -30,22 +30,29 @@ class Auth {
 
   /* User Registration/Signup controller  */
   async postSignup(req, res) {
-    let { name, email, surname, password, cPassword } = req.body;
-    let error = {};
-    if (!name || !email || !password || !surname || !cPassword) {
+    console.log('Sign up', req.body);
+    let { name, email, surname, password, cpassword } = req.body;
+    let error = {name: '', email: '', surname: '', password: ''};
+    if (!name || !email || !password || !surname) {
       error = {
         ...error,
         name: name ? '' : "Filed must not be empty",
         email: email ? '' : "Filed must not be empty",
         surname: surname ? '' : "Filed must not be empty",
         password: password ? '' : "Filed must not be empty",
-        cPassword: cPassword ? '' : "Filed must not be empty",
+        cpassword: cpassword ? '' : "Filed must not be empty",
       };
-      return res.json({ error });
+      return res.json({ error, level: '1' });
+    }else if(password !== cpassword){
+      error = {
+        ...error,
+        password: "Password doesn't match",
+      };
+      return res.json({ error, level: '2' });
     }
     else if (name.length < 3 || name.length > 25) {
       error = { ...error, name: "Name must be 3-25 charecter" };
-      return res.json({ error });
+      return res.json({ error, level: '3' });
     } else {
       if (validateEmail(email)) {
         name = toTitleCase(name);
@@ -57,7 +64,7 @@ class Auth {
             surname: "",
             email: "",
           };
-          return res.json({ error });
+          return res.json({ error, level: '4' });
         } else {
           // If Email & Number exists in Database then:
           try {
@@ -71,7 +78,7 @@ class Auth {
                 surname: "",
                 email: "Email already exists",
               };
-              return res.json({ error });
+              return res.json({ error, level: '5' });
             } else {
               let newUser = new userModel({
                 name,
@@ -109,6 +116,7 @@ class Auth {
 
   /* User Login/Signin controller  */
   async postSignin(req, res) {
+    console.log('Login', req.body);
     let { email, password } = req.body;
     if (!email || !password) {
       return res.json({
@@ -124,14 +132,23 @@ class Auth {
       } else {
         const login = await bcrypt.compare(password, data.password);
         if (login) {
+          let expiration = '1d';
           const token = jwt.sign(
             { _id: data._id, name: data.name },
-            process.env.SECRET
+            process.env.SECRET,
+            { expiresIn: expiration }
           );
           const encode = jwt.verify(token, process.env.SECRET);
+          await res.cookie('token', token, {
+            expires: new Date(Date.now() + expiration),
+            secure: false, // set to true if your using https
+            httpOnly: false,
+          });
           return res.json({
-            token: token,
-            user: encode,
+            success: {
+              token: token,
+              user: encode,
+            }
           });
         } else {
           return res.json({

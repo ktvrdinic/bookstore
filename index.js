@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const { loginCheck } = require("./middleware/auth");
 const bookController = require("./controllers/book");
 // const { loginCheck } = require("./middleware/auth");
 
@@ -21,6 +23,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(cors());
+app.use(cookieParser());
 
 // Connect to mongoDB
 const connectionOptions = { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false };
@@ -35,3 +38,4 @@ mongoose.connect(process.env.DATABASE, connectionOptions)
 app.use('/api', authRouter);
 app.use('/booksapi', bookRouter);
 app.get('/books', (req, res) => { bookController.allBooks(req, res) });
+app.get('/profile', loginCheck, (req, res) => { bookController.allBooks(req, res) });

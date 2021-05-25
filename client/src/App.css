@@ -1,0 +1,105 @@
+.App {
+  text-align: center;
+}
+
+.textWelcome {
+  padding-top: 30px;
+}
+
+.typographySecondary {
+  color: #8f8f8f;
+}
+
+.holderTextField {
+  display: flex;
+  height: 240px;
+  width: 400px;
+  flex-direction: column;
+  border: 1px solid lightgray;
+  justify-content: space-between;
+  background-color: #fafafa;
+  padding: 35px;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 11px;
+}
+
+.holderSignUpTextField {
+  display: flex;
+  height: 470px;
+  width: 400px;
+  flex-direction: column;
+  border: 1px solid lightgray;
+  justify-content: space-between;
+  background-color: #fafafa;
+  padding: 35px;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 11px;
+}
+
+.listBooks {
+  list-style: none;
+  width: 250px;
+  background: #fafafa;
+  padding: 20px;
+  border: 1px solid lightgray;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 10px;
+}
+
+.listBooks li {
+  height: 27px;
+  margin: 2px 0;
+  background: lightsteelblue;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.textWelcome .btnSearch {
+  margin-top: 30px;
+}
+
+.profileContainer {
+  display: flex;
+}
+
+.leftSection {
+  flex-grow: 3;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin: 25px;
+  background: #fafafa;
+  padding: 15px;
+}
+
+.leftSection .profileList {
+  list-style: none;
+  padding: 0px;
+}
+
+.leftSection .profileList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.rightSection {
+  flex-grow: 1;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin: 25px;
+  background: #fafafa;
+  padding: 15px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}

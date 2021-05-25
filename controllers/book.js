@@ -17,6 +17,15 @@ class Book {
     }
   }
 
+  async allBooksOfUser(req, res) {
+    try {
+      let allBook = await bookModel.findById(req.user._id);
+      res.json({ books: allBook });
+    } catch {
+      res.status(404);
+    }
+  }
+
   async insertBook(req, res) {
     try {
       var { title, description, coverImg, price } = req.body;

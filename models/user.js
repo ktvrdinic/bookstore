@@ -26,7 +26,8 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    books: [{ type: Schema.Types.ObjectId, ref: 'Book' }],
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

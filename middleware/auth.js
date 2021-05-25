@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-// const { JWT_SECRET } = require("../config/keys");
-const userModel = require("../models/user"); 
+const userModel = require("../models/user");
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
@@ -8,14 +8,14 @@ if (process.env.NODE_ENV !== 'production') {
 exports.loginCheck = (req, res, next) => {
   try {
     let token = req.headers.token;
+    console.log('Auth check req ', JSON.stringify(req.cookie));
+    console.log('Auth check res ', JSON.stringify(res.headers));
     token = token.replace("Bearer ", "");
     decode = jwt.verify(token, process.env.SECRET);
     req.user = decode;
     next();
   } catch (err) {
-    res.json({
-      error: "You must be logged in",
-    });
+    res.status(400).send({ error: "You must be logged in" });
   }
 };
 
