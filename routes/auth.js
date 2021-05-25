@@ -5,5 +5,6 @@ const { loginCheck, isAuth } = require("../middleware/auth");
 
 router.post("/signup", (req, res) => {authController.postSignup(req, res)});
 router.post("/signin", (req, res) => {authController.postSignin(req, res)});
+router.get("/logout", (req, res) => {authController.logOut(req, res)});
 
 module.exports = router;

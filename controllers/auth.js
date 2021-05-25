@@ -19,6 +19,16 @@ class Auth {
     }
   }
 
+  async logOut(req, res) {
+    try {
+      res.clearCookie('token');
+      return res.status(200).send({ success: 'You are logged out'});
+    } catch (err) {
+      console.log(err);
+      return res.status(400).send({err});
+    }
+  }
+
 //   async allUser(req, res) {
 //     try {
 //       let allUser = await userModel.find({});
@@ -42,17 +52,17 @@ class Auth {
         password: password ? '' : "Filed must not be empty",
         cpassword: cpassword ? '' : "Filed must not be empty",
       };
-      return res.json({ error, level: '1' });
+      return res.status(400).json({ error, level: '1' });
     }else if(password !== cpassword){
       error = {
         ...error,
         password: "Password doesn't match",
       };
-      return res.json({ error, level: '2' });
+      return res.status(400).json({ error, level: '2' });
     }
     else if (name.length < 3 || name.length > 25) {
       error = { ...error, name: "Name must be 3-25 charecter" };
-      return res.json({ error, level: '3' });
+      return res.status(400).json({ error, level: '3' });
     } else {
       if (validateEmail(email)) {
         name = toTitleCase(name);
@@ -64,7 +74,7 @@ class Auth {
             surname: "",
             email: "",
           };
-          return res.json({ error, level: '4' });
+          return res.status(400).json({ error, level: '4' });
         } else {
           // If Email & Number exists in Database then:
           try {
@@ -78,7 +88,7 @@ class Auth {
                 surname: "",
                 email: "Email already exists",
               };
-              return res.json({ error, level: '5' });
+              return res.status(400).json({ error, level: '5' });
             } else {
               let newUser = new userModel({
                 name,
@@ -119,14 +129,14 @@ class Auth {
     console.log('Login', req.body);
     let { email, password } = req.body;
     if (!email || !password) {
-      return res.json({
+      return res.status(400).json({
         error: "Fields must not be empty",
       });
     }
     try {
       const data = await userModel.findOne({ email: email });
       if (!data) {
-        return res.json({
+        return res.status(400).json({
           error: "Invalid email or password",
         });
       } else {
@@ -139,10 +149,11 @@ class Auth {
             { expiresIn: expiration }
           );
           const encode = jwt.verify(token, process.env.SECRET);
-          await res.cookie('token', token, {
+          res.cookie('token', token, {
             expires: new Date(Date.now() + expiration),
             secure: false, // set to true if your using https
-            httpOnly: false,
+            httpOnly: true,
+            domain: 'localhost'
           });
           return res.json({
             success: {
@@ -151,7 +162,7 @@ class Auth {
             }
           });
         } else {
-          return res.json({
+          return res.status(400).json({
             error: "Invalid email or password",
           });
         }
@@ -160,6 +171,8 @@ class Auth {
       console.log(err);
     }
   }
+
+
 }
 
 const authController = new Auth();

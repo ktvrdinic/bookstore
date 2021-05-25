@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -8,14 +8,20 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 
-interface myProps {
-    toggleAuth: () => void;
- }
+// interface myProps {
+//     isAuth: Boolean
+// }
 
-export default function Login(props: myProps) {
+export default function Login(props: any) {
     const [state, setState] = useState({ email: "", password: "" });
     const [error, setError] = useState({ restAPI: false });
     var history = useHistory();
+
+    useEffect(() => {
+        if (props.isAuthenticated) {
+            history.push('/profile');
+        }
+    }, []);
 
     function onChange(event: any): void {
         const { name, value } = event.target;
@@ -23,15 +29,12 @@ export default function Login(props: myProps) {
     }
 
     function handleLogin(event: any): void {
-        axios.post('http://localhost:4000/api/signin', { email: state.email, password: state.password })
-            .then((response) => {
-                if (response.data.error) {
-                    setError({ restAPI: true });
-                }
-                else if(response.data.success) {
-                    props.toggleAuth();
-                    console.log(Cookies.get('token'));
-                    history.push('/profile');
+        axios.post('http://localhost:4000/api/signin', { email: state.email, password: state.password }, { withCredentials: true })
+            .then(async (response) => {
+                if (response.data.success.user) {
+                    await localStorage.setItem('token', "Bearer " + response.data.success.token);
+                    await localStorage.setItem('user', response.data.success.user.name);
+                    props.setIsAuthenticated(true);
                 }
             })
             .catch((error) => {
@@ -52,7 +55,7 @@ export default function Login(props: myProps) {
                     </Typography>
                 </div>
             </div>
-            {console.log('Cookie', Cookies.get('token'))}
+            <p>{Cookies.get('token')}</p>
             <div className='holderTextField'>
                 <TextField id="outlined-basic" label="E-mail" variant="outlined" name='email' onChange={onChange} error={error.restAPI}
                     InputProps={{

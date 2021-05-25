@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,12 @@ export default function Signup() {
     const [state, setState] = useState({ name: "", surname: "", email: "", password: "", cpassword: "" });
     const [error, setError] = useState({ name: '', surname: '', email: '', password: '' });
     var history = useHistory();
+
+    useEffect(() => {
+        if(localStorage.getItem('token')){
+            history.push('/profile');
+        }
+    }, []);
 
     function onChange(event: any): void {
         const { name, value } = event.target;

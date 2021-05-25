@@ -7,15 +7,21 @@ if (process.env.NODE_ENV !== 'production') {
 
 exports.loginCheck = (req, res, next) => {
   try {
-    let token = req.headers.token;
-    console.log('Auth check req ', JSON.stringify(req.cookie));
-    console.log('Auth check res ', JSON.stringify(res.headers));
+    let token = req.cookies.token;
+    // console.log('Auth check req ', JSON.stringify(req.cookies.token));
     token = token.replace("Bearer ", "");
+
+    // if(token !== req.headers['token']) {
+    //   res.redirect('/login');
+    //   throw new Error('Something wrong with token');
+    // }
+    
     decode = jwt.verify(token, process.env.SECRET);
     req.user = decode;
     next();
   } catch (err) {
-    res.status(400).send({ error: "You must be logged in" });
+    console.log(err);
+    res.redirect('/login');
   }
 };
 

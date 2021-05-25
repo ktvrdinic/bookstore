@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(cookieParser());
 
 // Connect to mongoDB
@@ -38,4 +38,4 @@ mongoose.connect(process.env.DATABASE, connectionOptions)
 app.use('/api', authRouter);
 app.use('/booksapi', bookRouter);
 app.get('/books', (req, res) => { bookController.allBooks(req, res) });
-app.get('/profile', loginCheck, (req, res) => { bookController.allBooks(req, res) });
+app.get('/profile', loginCheck, (req, res) => { bookController.allBooksOfUser(req, res) });

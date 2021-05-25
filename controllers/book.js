@@ -12,23 +12,26 @@ class Book {
     try {
       let allBook = await bookModel.find({});
       res.json({ books: allBook });
-    } catch {
+    } catch (err) {
+      console.log(err);
       res.status(404);
     }
   }
 
   async allBooksOfUser(req, res) {
     try {
-      let allBook = await bookModel.findById(req.user._id);
+      let allBook = await bookModel.find({author: req.user._id});
       res.json({ books: allBook });
-    } catch {
+    } catch (err) {
+      console.log(err);
       res.status(404);
     }
   }
 
   async insertBook(req, res) {
     try {
-      var { title, description, coverImg, price } = req.body;
+      var { title, description, coverImg, price } = req.body.state;
+      console.log(`Title ${title} description ${description} coverImg ${coverImg} price ${price}`);
       var book1 = await new bookModel({ title, description, author: req.user._id, coverImg, price });
 
       userModel.findOne({ _id: req.user._id }).then(data => {
@@ -36,18 +39,21 @@ class Book {
           res.status(404);
         } else {
           book1.save((err, book) => {
-            if (err) return console.error(err);
-            res.json({ success: true, book: book });
+            if (err) {
+              console.error(err);
+              res.status(404).json({ err })
+            }
+            res.status(200).json({ success: true, book: book });
           })
         }
       }).catch(err => {
         console.log(err);
-        res.status(404);
+        res.status(404).json({ err })
       });
 
     } catch (err) {
       console.log(err);
-      res.status(404);
+      res.status(404).json({ err })
     }
   }
 
@@ -63,9 +69,12 @@ class Book {
   }
 
   async deleteBook(req, res) {
+    // console.log(`User ${req.user._id}, body ${req.body._id}`);
     try {
-      bookModel.remove({ author: req.user._id, _id: req.body._id }).then(data => { res.json({ data }) }).catch(err => { res.json({ err }) });
-    } catch {
+      bookModel.deleteOne({ /*author: req.user._id,*/ _id: req.body._id })
+      .then(data => { res.json({ data }) });
+    } catch (err) {
+      console.log(err);
       res.status(404);
     }
   }
@@ -73,7 +82,8 @@ class Book {
   async unpublishBook(req, res) {
     try {
       bookModel.remove({ author: req.user._id, _id: req.body._id }).then(data => { res.json({ data }) }).catch(err => { res.json({ err }) });
-    } catch {
+    } catch (err) {
+      console.log(err);
       res.status(404);
     }
   }
