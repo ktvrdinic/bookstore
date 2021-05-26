@@ -39,26 +39,14 @@
 }
 
 .listBooks {
-  list-style: none;
-  width: 600px;
+  display: flex;
+  flex-wrap: wrap;
   background: #fafafa;
   padding: 20px;
   border: 1px solid lightgray;
-  margin: auto;
+  margin: 100px;
   margin-top: 50px;
   border-radius: 10px;
-}
-
-.listBooks li {
-  height: 40px;
-  margin: 2px 0;
-  background: lightsteelblue;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-right: 20px;
-  padding-left: 20px;
 }
 
 .textWelcome .btnSearch {
@@ -71,29 +59,23 @@
 
 .leftSection {
   flex-grow: 3;
-  border: 1px solid lightgray;
+  max-width: 78%;
   border-radius: 5px;
-  margin: 25px;
   background: #fafafa;
   padding: 15px;
+  border: 1px solid lightgray;
+  margin: 25px;
+  border-radius: 10px;
 }
 
 .leftSection .profileList {
-  list-style: none;
-  padding: 0px;
-}
-
-.leftSection .profileList li {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 4px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  padding: 5px;
+  flex-wrap: wrap;
+  padding: 25px 0px;
 }
 
 .rightSection {
+  height: 200px;
   flex-grow: 1;
   border: 1px solid lightgray;
   border-radius: 5px;
@@ -114,4 +96,12 @@
 
 .modalTextField {
   padding-bottom: 15px !important;
+}
+
+.title {
+
+}
+
+.description {
+  color: gray;
 }

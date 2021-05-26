@@ -9,28 +9,47 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+
 interface myProps {
     onClickLogout: (e: any) => void,
 }
 
 interface IUpdateState {
-        title: String, 
-        description: String,
-        coverImg: String,
-        price: String,
-        _id: String
+    title: String,
+    description: String,
+    coverImg: String,
+    price: String,
+    _id: String
 }
 
+const useStyles = makeStyles({
+    root: {
+        maxWidth: 345,
+        minWidth: 250,
+        marginRight: '25px',
+        marginBottom: '25px'
+    },
+});
+
 export default function Profile(props: myProps) {
+    const classes = useStyles();
+
     const [state, setState] = useState({ title: "", description: "", coverImg: "", price: "" });
     const [stateUpdate, setStateUpdate] = useState<IUpdateState>({ title: "", description: "", coverImg: "", price: "", _id: "" });
     const [books, setBooks] = useState<any>();
     const [error, setError] = useState<any>({});
     const [open, setOpen] = React.useState(false);
     const [openUpdate, setOpenUpdate] = React.useState(false);
-    
+
     const [updateSend, setUpdateSend] = useState({});
-    
+
     const user = localStorage.getItem('user');
 
     const handleClickOpen = () => {
@@ -42,7 +61,7 @@ export default function Profile(props: myProps) {
     };
 
     const handleClickOpenUpdate = (title: String, description: String, coverImg: String, price: String, _id: String) => {
-        setStateUpdate({ title, description, coverImg, price, _id});
+        setStateUpdate({ title, description, coverImg, price, _id });
         setOpenUpdate(true);
     };
 
@@ -58,7 +77,7 @@ export default function Profile(props: myProps) {
     function onChangeUpdate(event: any): void {
         const { name, value } = event.target;
         let object = Object.assign(updateSend, { [name]: value });
-        setUpdateSend({...updateSend, ...object});
+        setUpdateSend({ ...updateSend, ...object });
         setStateUpdate(prevState => ({ ...prevState, [name]: value }));
     }
 
@@ -68,7 +87,8 @@ export default function Profile(props: myProps) {
                 getBook();
             })
             .catch(err => {
-                console.log(err)
+                console.log(err);
+                props.onClickLogout(null);
             })
     }
 
@@ -78,7 +98,8 @@ export default function Profile(props: myProps) {
                 getBook();
             })
             .catch(err => {
-                console.log(err)
+                console.log(err);
+                props.onClickLogout(null);
             })
     }
 
@@ -88,7 +109,8 @@ export default function Profile(props: myProps) {
                 getBook();
             })
             .catch(err => {
-                console.log(err)
+                console.log(err);
+                props.onClickLogout(null);
             })
     }
 
@@ -118,17 +140,42 @@ export default function Profile(props: myProps) {
                     <Typography variant="h5">
                         List of books
                     </Typography>
-                    <ul className="profileList">
-                        {books?.map((book: any) =>
-                            <li>
-                                <img style={{ maxWidth: '40px' }} src={book.coverImg} /> {book.title} - {book.description}
-                                <div>
-                                    <Button color="primary" onClick={(e) => { handleClickOpenUpdate(book.title, book.description, book.coverImg, book.price, book._id) }}>Update</Button>
-                                    <Button color="secondary" onClick={(e) => { deleteBook(book._id) }}>Remove</Button>
-                                </div>
-                            </li>
+                    <div className="profileList">
+                        {books?.map((book: any, index: any) =>
+                            <Card className={classes.root} key={index}>
+                                <CardActionArea>
+                                    <CardMedia
+                                        component="img"
+                                        alt="Book image"
+                                        height="140"
+                                        image={book.coverImg}
+                                        title="Contemplative Reptile"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {book.title}
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            {book.description}
+                                        </Typography>
+                                        <br />
+
+                                    </CardContent>
+                                </CardActionArea>
+                                <CardActions>
+                                    <Button size="small" color="primary" onClick={(e) => { handleClickOpenUpdate(book.title, book.description, book.coverImg, book.price, book._id) }}>
+                                        Update
+                                    </Button>
+                                    <Button size="small" color="secondary" onClick={(e) => { deleteBook(book._id) }}>
+                                        Delete
+                                    </Button>
+                                    <Typography style={{ fontWeight: 'bold', color: '#3f50b5', marginLeft: 'auto', marginRight: '15px' }} variant="body2" color="textSecondary" component="p">
+                                        $ {book.price}
+                                    </Typography>
+                                </CardActions>
+                            </Card>
                         )}
-                    </ul>
+                    </div>
                     <Button variant="contained" color="primary" onClick={handleClickOpen}>
                         Add Book
                     </Button>
@@ -271,7 +318,7 @@ export default function Profile(props: myProps) {
                     <Typography variant="body2" style={{ color: 'gray' }}>
                         {user}
                     </Typography>
-                    <Button color="secondary" onClick={props.onClickLogout}>Sign Out</Button>
+                    <Button variant="contained" color="secondary" onClick={props.onClickLogout}>Sign Out</Button>
                 </div>
             </div>
         </>

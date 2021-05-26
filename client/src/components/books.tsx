@@ -6,10 +6,29 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+
+const useStyles = makeStyles({
+    root: {
+        maxWidth: 345,
+        minWidth: 250,
+        marginRight: '25px',
+        marginBottom: '25px'
+    },
+});
+
 export default function Books() {
+    const classes = useStyles();
+
     const [searchField, setSearchField] = useState<string>('');
     const [books, setBooks] = useState<any>();
     const [error, setError] = useState<any>({});
+    const user = localStorage.getItem('user');
 
     const handeClickSearch = (): void => {
         // Search
@@ -50,13 +69,37 @@ export default function Books() {
                         endAdornment: <SearchIcon style={{ cursor: 'pointer' }} onClick={() => { handeClickSearch() }} />
                     }}
                 />
-                <ul className="listBooks">
-                    {books?.map((book: any) =>
-                        <li><img style={{ maxHeight: '30px' }} src={book.coverImg} /> <span>{book.title}</span></li>
+                <div className="listBooks">
+                    {books?.filter((book: any) => book.title.toLowerCase().includes(searchField.toLowerCase())).map((book: any, index: any) =>
+                        <Card className={classes.root} key={index}>
+                            <CardActionArea>
+                                <CardMedia
+                                    component="img"
+                                    alt="Book image"
+                                    height="140"
+                                    image={book.coverImg}
+                                    title="Contemplative Reptile"
+                                />
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        {book.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        {book.description}
+                                    </Typography>
+                                    <Typography style={{ fontWeight: 'bold', color: '#3f50b5', textAlign: 'right' }} variant="body2" color="textSecondary" component="p">
+                                        $ {book.price}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
                     )}
-                </ul>
+                </div>
+
             </div>
-            <Button className='bookLoginBtn' color="primary" component={Link} to="/login">Log In</Button>
+
+            {user ? <Typography className='bookLoginBtn' color="primary">You are logged in as {user}</Typography> : <Button className='bookLoginBtn' color="primary" component={Link} to="/login">Log In</Button>}
+            <Button variant="contained" style={{ top: '60px' }} className='bookLoginBtn' color="primary" component={Link} to="/profile">Dashboard</Button>
         </div>
     )
 }
