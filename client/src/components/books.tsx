@@ -45,8 +45,10 @@ export default function Books() {
                     Here you can see list of books. If you are owner you can delete it.
                 </Typography>
                 <TextField
+                    id="searchField"
                     label='Search...'
                     className="btnSearch"
+                    value={searchField}
                     onChange={(e) => { handleChange(e) }}
                     variant='outlined'
                     InputProps={{
@@ -62,8 +64,8 @@ export default function Books() {
 
             </div>
 
-            {user ? <Typography className='bookLoginBtn' color="primary">You are logged in as {user}</Typography> : <Button className='bookLoginBtn' color="primary" component={Link} to="/login">Log In</Button>}
-            <Button variant="contained" style={{ top: '60px' }} className='bookLoginBtn' color="primary" component={Link} to="/profile">Dashboard</Button>
+            {user ? <Typography className='bookLoginBtn' color="primary" data-testid="logInformation">You are logged in as {user}</Typography> : <Button className='bookLoginBtn' color="primary" component={Link} to="/login">Log In</Button>}
+            <Button variant="contained" style={{ top: '60px' }} className='bookLoginBtn' color="primary" component={Link} to="/profile" data-testid="logInformation">Dashboard</Button>
         </div>
     )
 }

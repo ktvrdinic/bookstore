@@ -31,9 +31,10 @@ const ListBooks: React.FC<IProps> = ({ books, searchField = '', handleClickOpenU
     return (
         <>
             { books && books.filter((book: any) => book.title.toLowerCase().includes(searchField && searchField.toLowerCase())).map((book: any, index: any) => (
-                <Card className={classes.root} key={index}>
+                <Card id='card' className={classes.root} key={index}>
                     <CardActionArea>
                         <CardMedia
+                            id='cardMedia'
                             component="img"
                             alt="Book image"
                             height="140"
@@ -41,10 +42,10 @@ const ListBooks: React.FC<IProps> = ({ books, searchField = '', handleClickOpenU
                             title="Contemplative Reptile"
                         />
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography id='title' gutterBottom variant="h5" component="h2">
                                 {book.title}
                             </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
+                            <Typography id='description' variant="body2" color="textSecondary" component="p">
                                 {book.description}
                             </Typography>
                             <br />
@@ -57,7 +58,7 @@ const ListBooks: React.FC<IProps> = ({ books, searchField = '', handleClickOpenU
                         <Button size="small" color="secondary" onClick={(e) => { deleteBook && deleteBook(book._id) }}>
                             Delete
                         </Button>
-                        <Typography style={{ fontWeight: 'bold', color: '#3f50b5', marginLeft: 'auto', marginRight: '15px' }} variant="body2" color="textSecondary" component="p">
+                        <Typography id='price' style={{ fontWeight: 'bold', color: '#3f50b5', marginLeft: 'auto', marginRight: '15px' }} variant="body2" color="textSecondary" component="p">
                             $ {book.price}
                         </Typography>
                     </CardActions>}

@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test App Entry point Should have a search tag with Search field! 1`] = `
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
+`;

@@ -1,11 +1,19 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
 import App from '../App';
-import Books from '../components/books';
+import { createShallow } from '@material-ui/core/test-utils';
 
 describe('Test App Entry point', () => {
+    let shallow;
+    beforeAll(() => {
+        shallow = createShallow();
+    });
+
+    let wrapper;
+    beforeEach(() => {
+        wrapper = shallow(<App />);
+    });
     it('Should have a search tag with Search field!', ()=>{
-        const wrapper = shallow(<App />);
-        expect(wrapper.find(Books).to.have.lengthOf(1));
+        expect(toJSON(wrapper)).toMatchSnapshot();
     });
 })

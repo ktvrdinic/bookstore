@@ -31,11 +31,11 @@ const Dialogs: React.FC<IProps> = ({open, onClose, onChange, title, description,
                     Here you must type all details about your book.
                 </DialogContentText>
                 <TextField
+                    id="title"
                     variant='outlined'
                     className='modalTextField'
                     autoFocus
                     margin="dense"
-                    id="name"
                     onChange={onChange}
                     value={title}
                     name='title'
@@ -44,9 +44,9 @@ const Dialogs: React.FC<IProps> = ({open, onClose, onChange, title, description,
                     fullWidth
                 />
                 <TextField
+                    id="description"
                     variant='outlined'
                     className='modalTextField'
-                    id="standard-multiline-static"
                     label="Description"
                     name='description'
                     value={description}
@@ -56,6 +56,7 @@ const Dialogs: React.FC<IProps> = ({open, onClose, onChange, title, description,
                     rows={4}
                 />
                 <TextField
+                    id="coverImg"
                     variant='outlined'
                     className='modalTextField'
                     name='coverImg'
@@ -63,12 +64,12 @@ const Dialogs: React.FC<IProps> = ({open, onClose, onChange, title, description,
                     autoFocus
                     margin="dense"
                     onChange={onChange}
-                    id="name"
                     label="IMG URI"
                     type="text"
                     fullWidth
                 />
                 <TextField
+                    id="price"
                     variant='outlined'
                     className='modalTextField'
                     autoFocus
@@ -76,7 +77,6 @@ const Dialogs: React.FC<IProps> = ({open, onClose, onChange, title, description,
                     name='price'
                     value={price}
                     onChange={onChange}
-                    id="name"
                     label="Price"
                     type="number"
                     fullWidth
