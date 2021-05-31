@@ -41,12 +41,8 @@
 .listBooks {
   display: flex;
   flex-wrap: wrap;
-  background: #fafafa;
-  padding: 20px;
-  border: 1px solid lightgray;
   margin: 100px;
   margin-top: 50px;
-  border-radius: 10px;
 }
 
 .textWelcome .btnSearch {

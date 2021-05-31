@@ -58,7 +58,7 @@ function App() {
 
   return (
       <Switch>
-        <Route exact path="/">
+        <Route exact path={["/", "/books"]}>
           <Books />
         </Route>
         <Route path="/login" render={(props) =>
@@ -71,9 +71,6 @@ function App() {
         } />
         <Route path="/signup">
           <SignUp />
-        </Route>
-        <Route path="/books">
-          <Books />
         </Route>
         <ProtectedRoute
           path='/profile'

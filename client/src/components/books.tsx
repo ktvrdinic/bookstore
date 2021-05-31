@@ -5,26 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import ListBooks from './globals/listBooks';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-
-const useStyles = makeStyles({
-    root: {
-        maxWidth: 345,
-        minWidth: 250,
-        marginRight: '25px',
-        marginBottom: '25px'
-    },
-});
 
 export default function Books() {
-    const classes = useStyles();
-
     const [searchField, setSearchField] = useState<string>('');
     const [books, setBooks] = useState<any>();
     const [error, setError] = useState<any>({});
@@ -70,30 +54,10 @@ export default function Books() {
                     }}
                 />
                 <div className="listBooks">
-                    {books?.filter((book: any) => book.title.toLowerCase().includes(searchField.toLowerCase())).map((book: any, index: any) =>
-                        <Card className={classes.root} key={index}>
-                            <CardActionArea>
-                                <CardMedia
-                                    component="img"
-                                    alt="Book image"
-                                    height="140"
-                                    image={book.coverImg}
-                                    title="Contemplative Reptile"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        {book.title}
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        {book.description}
-                                    </Typography>
-                                    <Typography style={{ fontWeight: 'bold', color: '#3f50b5', textAlign: 'right' }} variant="body2" color="textSecondary" component="p">
-                                        $ {book.price}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    )}
+                    <ListBooks 
+                        books={books}
+                        searchField={searchField}
+                    />
                 </div>
 
             </div>
