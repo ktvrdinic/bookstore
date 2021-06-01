@@ -10,12 +10,13 @@ exports.loginCheck = (req, res, next) => {
     let token = req.cookies.token;
     // console.log('Auth check req ', JSON.stringify(req.cookies.token));
     token = token.replace("Bearer ", "");
+    let headerToken = req.headers.authorization.replace("Bearer ", "");
 
-    // if(token !== req.headers['token']) {
-    //   res.redirect('/login');
-    //   throw new Error('Something wrong with token');
-    // }
-    
+    if(token !== headerToken) {
+      res.redirect('/login');
+      throw new Error('Something is wrong with token');
+    }
+
     decode = jwt.verify(token, process.env.SECRET);
     req.user = decode;
     next();

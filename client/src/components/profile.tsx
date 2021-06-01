@@ -11,7 +11,7 @@ interface myProps {
     onClickLogout: (e: any) => void,
 }
 
-interface IUpdateState {
+export interface IUpdateState {
     title: String,
     description: String,
     coverImg: String,
@@ -61,7 +61,7 @@ export default function Profile(props: myProps) {
     }
 
     const deleteBook = (id: String): void => {
-        axios.post('http://localhost:4000/booksapi/delete', { _id: id }, { withCredentials: true })
+        axios.post('http://localhost:4000/booksapi/delete', { _id: id },  { headers: { Authorization: `${localStorage.getItem('token')}` }})
             .then(body => {
                 getBook();
             })
@@ -72,7 +72,7 @@ export default function Profile(props: myProps) {
     }
 
     const addBook = (): void => {
-        axios.post('http://localhost:4000/booksapi/insert', { state }, { withCredentials: true })
+        axios.post('http://localhost:4000/booksapi/insert', { state },  { headers: { Authorization: `${localStorage.getItem('token')}` }})
             .then(body => {
                 getBook();
             })
@@ -83,7 +83,7 @@ export default function Profile(props: myProps) {
     }
 
     const updateBook = (): void => {
-        axios.put('http://localhost:4000/booksapi/update', { _id: stateUpdate._id, ...updateSend }, { withCredentials: true })
+        axios.put('http://localhost:4000/booksapi/update', { _id: stateUpdate._id, ...updateSend },  { headers: { Authorization: `${localStorage.getItem('token')}`, withCredentials: true }})
             .then(body => {
                 getBook();
             })
@@ -94,7 +94,7 @@ export default function Profile(props: myProps) {
     }
 
     const getBook = (): void => {
-        axios.get('http://localhost:4000/profile', { withCredentials: true })
+        axios.get('http://localhost:4000/profile', { headers: { Authorization: `${localStorage.getItem('token')}` }, withCredentials: true })
             .then(body => {
                 setBooks(body.data.books);
             })
