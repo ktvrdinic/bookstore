@@ -4,7 +4,7 @@ The project has authentication and authorization functionalities, where the user
 
 ## How to configure
 The first thing you need to do is create a database on mongoDB or download it locally and configure it.
-1. Clone repozitory to your local envirement
+1. Clone repository to your local environment
 ```
 git clone https://github.com/ktvrdinic/bookstore.git
 ```
