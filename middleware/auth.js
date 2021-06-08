@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const userModel = require("../models/user");
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -7,10 +6,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 exports.loginCheck = (req, res, next) => {
   try {
-    let token = req.cookies.token;
-    // console.log('Auth check req ', JSON.stringify(req.cookies.token));
-    token = token.replace("Bearer ", "");
-    let headerToken = req.headers.authorization.replace("Bearer ", "");
+    let token, headerToken;
+    token = req.cookies.token.replace("Bearer ", "");
+    headerToken = req.headers.authorization.replace("Bearer ", "");
 
     if(token !== headerToken) {
       res.redirect('/login');

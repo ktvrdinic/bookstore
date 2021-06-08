@@ -44,7 +44,6 @@ describe('Test List book component', () => {
         }];
 
         wrapper = shallow(<ListBooks books={books} />);
-        // console.log(wrapper.find('#title').debug());
         expect(wrapper.find('#title').text()).toEqual(books[0].title);
         expect(wrapper.find('#description').text()).toEqual(books[0].description);
         expect(wrapper.find('#cardMedia').text()).toEqual(books[0].coverImg);

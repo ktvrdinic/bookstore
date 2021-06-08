@@ -40,7 +40,6 @@ class Auth {
 
   /* User Registration/Signup controller  */
   async postSignup(req, res) {
-    console.log('Sign up', req.body);
     let { name, email, surname, password, cpassword } = req.body;
     let error = {name: '', email: '', surname: '', password: ''};
     if (!name || !email || !password || !surname) {
@@ -126,7 +125,6 @@ class Auth {
 
   /* User Login/Signin controller  */
   async postSignin(req, res) {
-    console.log('Login', req.body);
     let { email, password } = req.body;
     if (!email || !password) {
       return res.status(400).json({
@@ -150,9 +148,9 @@ class Auth {
           );
           const encode = jwt.verify(token, process.env.SECRET);
           res.cookie('token', token, {
-            expires: new Date(Date.now() + expiration),
+            // expires: new Date(Date.now() + expiration),
             secure: false, // set to true if your using https
-            httpOnly: true,
+            httpOnly: false,
             domain: 'localhost'
           });
           return res.json({

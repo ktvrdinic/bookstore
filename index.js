@@ -29,9 +29,7 @@ app.use(cookieParser());
 const connectionOptions = { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false };
 
 mongoose.connect(process.env.DATABASE, connectionOptions)
-  .then(result => app.listen(port, () =>
-    console.log(`App listening on port ${port}!`)
-  ))
+  .then(result => app.listen(port, () => console.log(`App listening on port ${port}!`)))
   .catch(err => console.log(err));
 
 // api routes

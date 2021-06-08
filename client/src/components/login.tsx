@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
-import Cookies from 'js-cookie';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -55,7 +54,6 @@ export default function Login(props: any) {
                     </Typography>
                 </div>
             </div>
-            <p>{Cookies.get('token')}</p>
             <div className='holderTextField'>
                 <TextField id="outlined-basic" label="E-mail" variant="outlined" name='email' onChange={onChange} error={error.restAPI}
                     InputProps={{

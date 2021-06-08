@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
+import Cookies from 'js-cookie';
 import ListBooks from './globals/listBooks';
 import Dialogs from './globals/dialogs';
 
@@ -61,7 +61,7 @@ export default function Profile(props: myProps) {
     }
 
     const deleteBook = (id: String): void => {
-        axios.post('http://localhost:4000/booksapi/delete', { _id: id },  { headers: { Authorization: `${localStorage.getItem('token')}` }})
+        axios.post('http://localhost:4000/booksapi/delete', { _id: id }, { headers: { Authorization: `${localStorage.getItem('token')}`}, withCredentials: true })
             .then(body => {
                 getBook();
             })
@@ -72,7 +72,9 @@ export default function Profile(props: myProps) {
     }
 
     const addBook = (): void => {
-        axios.post('http://localhost:4000/booksapi/insert', { state },  { headers: { Authorization: `${localStorage.getItem('token')}` }})
+        // console.log(Cookies.get('token'));
+        
+        axios.post('http://localhost:4000/booksapi/insert', { state }, { headers: { Authorization: `${localStorage.getItem('token')}`}, withCredentials: true })
             .then(body => {
                 getBook();
             })
@@ -83,7 +85,7 @@ export default function Profile(props: myProps) {
     }
 
     const updateBook = (): void => {
-        axios.put('http://localhost:4000/booksapi/update', { _id: stateUpdate._id, ...updateSend },  { headers: { Authorization: `${localStorage.getItem('token')}`, withCredentials: true }})
+        axios.put('http://localhost:4000/booksapi/update', { _id: stateUpdate._id, ...updateSend }, { headers: { Authorization: `${localStorage.getItem('token')}`}, withCredentials: true })
             .then(body => {
                 getBook();
             })
@@ -130,8 +132,8 @@ export default function Profile(props: myProps) {
                     <Button variant="contained" color="primary" onClick={handleClickOpen}>
                         Add Book
                     </Button>
-                    <Dialogs 
-                        open={open} 
+                    <Dialogs
+                        open={open}
                         onClose={handleClose}
                         onChange={onChange}
                         title={state.title}
@@ -141,8 +143,8 @@ export default function Profile(props: myProps) {
                         handleClose={handleClose}
                         addBook={addBook}
                     />
-                    <Dialogs 
-                        open={openUpdate} 
+                    <Dialogs
+                        open={openUpdate}
                         onClose={handleCloseUpdate}
                         onChange={onChangeUpdate}
                         title={stateUpdate.title}

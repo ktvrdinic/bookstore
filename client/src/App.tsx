@@ -33,28 +33,13 @@ function App() {
     localStorage.clear();
 
     axios.get('http://localhost:4000/api/logout', { withCredentials: true })
-            .then(body => {
-                history.push('/login');
-            })
+            .then(body => history.push('/login'))
             .catch(error => {
                 console.log(error);
                 history.push('/login');
             }
             );
   };
-
-  // const onClickAuthenticateButton = (e: any): void => {
-  //   localStorage.setItem('token', 'Bearer Valid_TOKEN');
-  //   setIsAuthenticated(true);
-  // };
-
-  // const checkAuth = () => {
-  //   let auth: any = JSON.stringify(localStorage.getItem('token'));
-  //   if(auth !== null) {
-  //     setIsAuth(true);
-  //     setUser(auth.user);
-  //   }
-  // };
 
   return (
       <Switch>

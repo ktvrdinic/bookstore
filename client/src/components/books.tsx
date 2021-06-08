@@ -14,25 +14,17 @@ export default function Books() {
     const [error, setError] = useState<any>({});
     const user = localStorage.getItem('user');
 
-    const handeClickSearch = (): void => {
-        // Search
-        console.log(searchField);
-    };
-
     const handleChange = (e: any): void => {
         setSearchField(e.currentTarget.value);
     };
 
     useEffect(() => {
         axios.get('http://localhost:4000/books', { withCredentials: true })
-            .then(body => {
-                setBooks(body.data.books);
-            })
+            .then(body => setBooks(body.data.books))
             .catch(error => {
                 console.log(error);
                 setError({ error });
-            }
-            );
+            });
     }, []);
 
     return (
@@ -52,11 +44,11 @@ export default function Books() {
                     onChange={(e) => { handleChange(e) }}
                     variant='outlined'
                     InputProps={{
-                        endAdornment: <SearchIcon style={{ cursor: 'pointer' }} onClick={() => { handeClickSearch() }} />
+                        endAdornment: <SearchIcon style={{ cursor: 'pointer' }} />
                     }}
                 />
                 <div className="listBooks">
-                    <ListBooks 
+                    <ListBooks
                         books={books}
                         searchField={searchField}
                     />
