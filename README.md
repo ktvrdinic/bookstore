@@ -8,11 +8,11 @@ The first thing you need to do is create a database on mongoDB or download it lo
 ```
 git clone https://github.com/ktvrdinic/bookstore.git
 ```
-3. Configure [MongoDB](https://www.mongodb.com/) and fetch connection URL
-4. SetUp env variables.
-    1. DATABASE (Set MongoDB URI fetched from 2.)
+2. Configure [MongoDB](https://www.mongodb.com/) and fetch connection URL ([Tutorial how to connect MongoDB with Node](https://www.youtube.com/watch?v=Qn0SOL8vK8w))
+3. SetUp env variables.
+    1. DATABASE (Set MongoDB URL fetched from 2.)
     2. SECRET (Set Secret for your JWT token)
-5. Install packages on server
+4. Enter to your cloned folder and install packages on server
 ```
 yarn
 ```
